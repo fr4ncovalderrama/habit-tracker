@@ -48,7 +48,7 @@ function HabitDetail() {
 
       {/* HEADER DEL HABITO */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold tracking-tight flex items-center gap-3">
+        <h2 className="text-xl font-semibold tracking-tight flex items-center gap-3 text-white">
           <span
             className="h-5 w-5 rounded-full"
             style={{ backgroundColor: habit.color }}

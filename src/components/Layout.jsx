@@ -1,7 +1,7 @@
 function Layout({ children }) {
   return (
     <div className="min-h-screen flex justify-center px-4 py-6">
-      <div className="w-full max-w-4xl">
+      <div className="w-full ">
         <header className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Habiti</h1>

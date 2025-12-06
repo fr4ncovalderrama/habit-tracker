@@ -1,9 +1,12 @@
 import { getDaysInMonth, startOfMonth, format } from "date-fns";
 import { es } from "date-fns/locale";
 import { getTodayKey } from "../utils/dateUtils";
+import { useHabitsStore } from "../store/habitsStore";
 
 function CalendarGrid({ habit, year, month }) {
   const todayKey = getTodayKey();
+
+  const toggleDay = useHabitsStore((state) => state.toggleDay);
 
   const date = new Date(year, month);
   const daysInMonth = getDaysInMonth(date);
@@ -33,7 +36,7 @@ function CalendarGrid({ habit, year, month }) {
   return (
     <div>
       {/* Nombre del mes */}
-      <h3 className="text-md font-semibold tracking-tight mb-4 capitalize">
+      <h3 className="text-md font-semibold tracking-tight mb-4 capitalize text-white">
         {format(date, "MMMM yyyy", { locale: es })}
       </h3>
 
@@ -57,14 +60,31 @@ function CalendarGrid({ habit, year, month }) {
 
           const completed = isCompleted(day);
 
+          // Generar la key de la fecha correspondiente a este día
+          const dayKey = `${year}-${String(month + 1).padStart(
+            2,
+            "0"
+          )}-${String(day).padStart(2, "0")}`;
+          // Obtener la fecha de hoy para comparar
+          const today = new Date();
+          const cellDate = new Date(year, month, day);
+          // Solo permitir marcar días anteriores a hoy
+          const isPastDay =
+            cellDate <
+            new Date(today.getFullYear(), today.getMonth(), today.getDate());
           return (
             <div
               key={index}
+              onClick={
+                isPastDay ? () => toggleDay(habit.id, dayKey) : undefined
+              }
               className={`h-10 flex items-center justify-center rounded-lg border transition
                 ${
                   completed
                     ? "bg-green-600 text-white border-green-500"
-                    : "border-zinc-700 text-zinc-400"
+                    : isPastDay
+                    ? "border-zinc-700 text-zinc-400 hover:bg-zinc-800 cursor-pointer"
+                    : "border-zinc-800 text-zinc-700 bg-zinc-900 cursor-not-allowed opacity-50"
                 }
               `}
             >
